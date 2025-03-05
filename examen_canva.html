@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen</title>
+    <style>
+        /* Estilos para centrar el canvas */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0; /* Color de fondo opcional */
+        }
+        canvas {
+            border: 2px solid red;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="juego" width="600" height="400"></canvas>
+
+    <script>
+        // Dibujar el canvas y su contexto
+        let canvas = document.getElementById("juego");
+        let ctx = canvas.getContext("2d");
+
+        // Posiciones iniciales y velocidades
+        let bolaAzul = { x: 300, y: 50, radio: 20, velY: 2 };  // Movimiento vertical
+        let bolaRoja = { x: 50, y: 200, radio: 20, velX: 2 };   // Movimiento horizontal
+
+        function rebotar() {
+            // Limpiar el canvas antes de redibujar
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Dibujar bola azul (movimiento de arriba a abajo)
+            ctx.beginPath();
+            ctx.arc(bolaAzul.x, bolaAzul.y, bolaAzul.radio, 0, 2 * Math.PI);
+            ctx.fillStyle = "blue";
+            ctx.fill();
+            ctx.closePath();
+
+            // Dibujar bola roja (movimiento de izquierda a derecha)
+            ctx.beginPath();
+            ctx.arc(bolaRoja.x, bolaRoja.y, bolaRoja.radio, 0, 2 * Math.PI);
+            ctx.fillStyle = "red";
+            ctx.fill();
+            ctx.closePath();
+
+            // Movimiento de la bola azul (rebota de arriba a abajo)
+            bolaAzul.y += bolaAzul.velY;
+            if (bolaAzul.y + bolaAzul.radio >= canvas.height || bolaAzul.y - bolaAzul.radio <= 0) {
+                bolaAzul.velY *= -1;  // Invertir dirección
+            }
+
+            // Movimiento de la bola roja (rebota de izquierda a derecha)
+            bolaRoja.x += bolaRoja.velX;
+            if (bolaRoja.x + bolaRoja.radio >= canvas.width || bolaRoja.x - bolaRoja.radio <= 0) {
+                bolaRoja.velX *= -1;  // Invertir dirección
+            }
+
+            // Llamar a la animación de nuevo
+            requestAnimationFrame(rebotar);
+        }
+
+        // Iniciar la animación después de cargar la página
+        window.onload = function () {
+            rebotar();
+        };
+    </script>
+</body>
+</html>
+
+
+
+
